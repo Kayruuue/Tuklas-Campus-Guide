@@ -1,0 +1,7 @@
+{
+  "name": "CampusGuideApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
