@@ -1,0 +1,59 @@
+<ion-header><ion-toolbar><ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons><strong class="navigation-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Navigation</span></strong></ion-toolbar></ion-header>
+<ion-content>
+  <main>
+    @if (service.loading()) {
+      <div class="state"><ion-spinner></ion-spinner><p>Loading destination…</p></div>
+    } @else if (service.error()) {
+      <div class="state"><p>{{ service.error() }}</p><ion-button (click)="service.load()">Retry loading</ion-button></div>
+    } @else if (item(); as facility) {
+      <div class="route-intro">
+        <div class="route-heading">
+          <span class="eyebrow">{{ facility.isEntrance ? 'CAMPUS ENTRANCE' : 'CAMPUS NAVIGATION · MAP ' + facility.mapNumber }}</span>
+          <h1>{{ facility.name }}</h1>
+          <p>{{ hasLiveLocation() ? 'Following your live location' : facility.isEntrance ? 'Enable location to navigate to the entrance' : 'Preview starting at the Mahogany Avenue entrance' }}</p>
+        </div>
+        <div class="destination-preview" [class.entrance-preview]="facility.isEntrance">
+          @if (facility.imagePath && !imageFailed) {
+            <img [src]="facility.imagePath" [alt]="'Photo of ' + facility.name" (error)="imageFailed = true" />
+          } @else {
+            <div class="destination-preview-empty" [attr.aria-label]="'Photo of ' + facility.name + ' not available yet'">
+              <ion-icon name="image-outline" aria-hidden="true"></ion-icon>
+              <span>{{ facility.isEntrance ? 'Entrance' : 'Map ' + facility.mapNumber }}</span>
+              <small>Photo unavailable</small>
+            </div>
+          }
+        </div>
+      </div>
+      @if (service.data(); as data) {
+        <app-campus-map [campus]="data.campus" [facility]="facility" [position]="location.position()" [navigation]="true" [featured]="true" [routePoints]="displayedPoints()" [routeKind]="routeKind()"></app-campus-map>
+      }
+
+      <section class="route-details">
+        <div class="route-summary"><div class="distance"><span>{{ walkingRoute() ? 'Mapped walking distance' : 'Straight-line distance' }}</span><strong>{{ readableDistance() }}</strong><small>{{ walkingRoute() ? walkingMinutes() + ' min estimate at 1.4 m/s' : 'Walking time unavailable' }}</small></div><div class="direction"><ion-icon name="arrow-up" [style.transform]="'rotate(' + rotation() + 'deg)'"></ion-icon><span>{{ compass.heading() === null ? 'Next path bearing' : 'Next path direction' }}</span></div></div>
+        <div class="route-points"><div><span class="point start"></span><p><small>START</small><strong>{{ hasLiveLocation() ? 'Your live location' : facility.isEntrance ? 'Waiting for your location' : 'Mahogany Avenue entrance' }}</strong></p></div><div><span class="point end"></span><p><small>DESTINATION</small><strong>{{ facility.name }}</strong></p></div></div>
+        @if (!hasDestination()) { <p class="notice">This facility does not have a map position yet.</p> }
+        @else if (facility.isEntrance && !hasLiveLocation()) { <p class="notice">Allow location access to draw a route from where you are to the campus entrance.</p> }
+        @else if (!walkingRoute()) { <p class="notice">A mapped road route is unavailable from your position. The dashed line only points toward the destination; it is not a walking path.</p> }
+        @if (arrived()) { <div class="arrived"><ion-icon name="checkmark-circle"></ion-icon>You’ve arrived at {{ facility.name }}.</div> }
+      </section>
+
+      <div class="end-panel">
+        <ion-button class="end-button" expand="block" (click)="endNavigation()">
+          End navigation
+        </ion-button>
+      </div>
+
+    } @else {
+      <div class="state"><ion-icon name="compass-outline"></ion-icon><p>Facility not found.</p><ion-button routerLink="/home">Back to facilities</ion-button></div>
+    }
+  </main>
+</ion-content>
+@if (item()) {
+  <ion-footer class="mobile-end-footer">
+    <div class="mobile-end-inner">
+      <ion-button class="end-button" expand="block" (click)="endNavigation()">
+        End navigation
+      </ion-button>
+    </div>
+  </ion-footer>
+}

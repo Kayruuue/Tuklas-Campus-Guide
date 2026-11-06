@@ -1,0 +1,28 @@
+.campus-notice {
+  position: fixed;
+  z-index: 1100;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  width: min(390px, calc(100vw - 32px));
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 16px;
+  border: 1px solid #344b7e;
+  border-left: 4px solid #e3af64;
+  border-radius: 12px;
+  background: #0f1939;
+  color: #fff;
+  box-shadow: 0 16px 42px #0f193938;
+  font-family: 'Manrope', sans-serif;
+  animation: notice-in .22s ease-out;
+}
+.notice-mark { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #e3af64; color: #0f1939; font-size: 18px; }
+.notice-copy { display: grid; gap: 4px; min-width: 0; padding-top: 2px; }
+.notice-copy strong { font-size: 14px; line-height: 1.25; font-weight: 800; }
+.notice-copy span { color: #dbe3f3; font-size: 12px; line-height: 1.45; }
+.campus-notice button { flex: none; width: 28px; height: 28px; margin: 0 0 0 auto; padding: 0; display: grid; place-items: center; border: 0; border-radius: 6px; background: transparent; color: #dbe3f3; font-size: 19px; cursor: pointer; }
+.campus-notice button:hover, .campus-notice button:focus-visible { background: #ffffff20; color: #fff; }
+@keyframes notice-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 650px) { .campus-notice { right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); } }
+@media (prefers-reduced-motion: reduce) { .campus-notice { animation: none; } }

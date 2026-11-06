@@ -1,0 +1,14 @@
+<article class="facility-card" [class.compact]="compact()" [class.stack-card]="!compact()" [class.entrance]="facility().isEntrance">
+  <a class="card-hit" [routerLink]="['/facility', facility().mapNumber]" [attr.aria-label]="'View details for ' + facility().name"></a>
+  <div class="visual">
+    @if (!compact() && !imageFailed && facility().imagePath) { <img [src]="facility().imagePath" [alt]="facility().name" (error)="onImageError()" /> }
+    @else { <span class="placeholder">{{ facility().isEntrance ? 'GATE' : facility().mapNumber }}</span> }
+  </div>
+  <div class="details">
+    <div class="topline"><span class="category">{{ facility().category.replaceAll('_', ' ') }}</span><button class="favorite" type="button" (click)="favoriteClicked($event)" [attr.aria-label]="'Favorite ' + facility().name"><ion-icon [name]="favorite() ? 'heart' : 'heart-outline'"></ion-icon></button></div>
+    <span class="name">{{ facility().name }}</span>
+    @if (!compact()) { <p>{{ facility().description }}</p> }
+    @if (!compact()) { <div class="meta"><span><ion-icon name="location-outline"></ion-icon>{{ distanceText() }}</span><span>{{ facility().isEntrance ? 'Gate hours: check with campus' : facility().openTime + ' - ' + facility().closeTime }}</span></div> }
+    <span class="map-link">View details <span class="detail-arrow" aria-hidden="true">↗</span></span>
+  </div>
+</article>

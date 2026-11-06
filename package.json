@@ -1,5 +1,5 @@
 {
-  "name": "CampusGuideApp",
+  "name": "tuklas",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -26,14 +26,21 @@
     "@angular/forms": "22.2.3",
     "@angular/platform-browser": "22.2.3",
     "@angular/router": "22.2.3",
+    "@capacitor/android": "^8.6.0",
     "@capacitor/app": "8.1.2",
     "@capacitor/core": "8.6.0",
+    "@capacitor/geolocation": "^8.2.4",
     "@capacitor/haptics": "8.0.2",
     "@capacitor/keyboard": "8.0.6",
+    "@capacitor/motion": "^8.0.1",
+    "@capacitor/preferences": "^8.0.1",
     "@capacitor/status-bar": "8.0.4",
     "@ionic/angular": "^9.0.0",
+    "@types/leaflet": "^1.9.22",
     "ionicons": "^8.1.0",
+    "leaflet": "^1.9.4",
     "rxjs": "~7.8.0",
+    "swiper": "^14.4.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

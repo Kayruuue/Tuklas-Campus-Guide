@@ -1,2 +1,14 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+:root {
+  --ion-font-family: 'Manrope', sans-serif;
+  --ion-color-primary: #26428b;
+  --ion-color-primary-rgb: 38, 66, 139;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-secondary: #e3af64;
+  --ion-background-color: #f8f7f5;
+  --ion-text-color: #0f1939;
+  --cg-blue: #26428b;
+  --cg-sapphire: #516ac8;
+  --cg-gold: #e3af64;
+  --cg-navy: #0f1939;
+  --cg-line: #dce2ed;
+}

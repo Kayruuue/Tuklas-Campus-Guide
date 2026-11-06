@@ -1,0 +1,22 @@
+<section class="map-panel" [class.navigation]="navigation()" [class.featured]="featured()" aria-label="NEUST Sumacab campus map">
+  <div class="map-toolbar">
+    <div class="map-heading"><span class="map-dot"></span><div><strong>Campus map</strong><span>NEUST Sumacab · Cabanatuan City</span></div></div>
+    <div class="map-actions">
+      @if (navigation()) {
+        <span class="route-label">Route</span>
+      } @else {
+        <button type="button" [class.active]="selectedView === 'campus'" (click)="focusCampus()">Campus</button>
+        <span class="map-view-separator" aria-hidden="true">/</span>
+        <button type="button" [class.active]="followLocation && !!position()" [disabled]="!position()" (click)="focusPosition()">My location</button>
+      }
+    </div>
+  </div>
+  <div class="map-canvas" #map role="img" aria-label="Interactive OpenStreetMap of NEUST Sumacab Campus"></div>
+  @if (tileError) { <p class="map-error">Map tiles could not load. Check your internet connection.</p> }
+  <div class="map-footer">
+    <span><i></i> {{ facility()?.isEntrance ? 'E: entrance · Blue dot: your location' : 'Gold: entrance · Blue: your location' }}</span>
+    @if (facility(); as place) {
+      <span>{{ routeKind() === 'mapped' ? 'Blue line: mapped path to ' + (place.isEntrance ? 'entrance' : '#' + place.mapNumber) : routeKind() === 'direct' ? 'Dashed line: direction only' : 'Mapped path unavailable to ' + (place.isEntrance ? 'entrance' : '#' + place.mapNumber) }}</span>
+    } @else { <span>Tap a numbered pin or E for entrance details</span> }
+  </div>
+</section>

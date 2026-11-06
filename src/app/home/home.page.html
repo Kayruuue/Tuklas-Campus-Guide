@@ -1,21 +1,46 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Blank </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
-    </p>
-  </div>
+<ion-content>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <header class="site-header">
+          <a class="brand" href="/home" aria-label="Tuklas home"><img class="brand-mark" src="assets/images/tuklas-mark.svg" alt="" /><span>Tuklas</span></a>
+          <nav aria-label="Page sections"><button type="button" (click)="scrollToSection('explore-campus')">Explore campus</button><button type="button" (click)="scrollToSection('directory')">Directory</button></nav>
+        </header>
+        <div class="hero-body">
+          <div class="hero-copy"><span class="eyebrow">NEUST SUMACAB CAMPUS</span><h1 id="hero-title">Find your way<br />around campus.</h1><p>A simple guide to the buildings, services, and spaces across NEUST Sumacab. Find a place, then follow its direction when you are on campus.</p><div class="hero-facts"><div class="fact"><strong>{{ facilities.data()?.facilities?.length || 54 }}</strong><span>Campus places</span></div><div class="fact blue"><strong>450 m</strong><span>Campus radius</span></div></div></div>
+          <button class="locate-card" type="button" (click)="scrollToSection('campus-map-panel')" aria-label="Locate places on the campus map"><img src="assets/images/campus-outline-blue.png" alt="" /><span>Locate</span></button>
+        </div>
+      </div>
+    </section>
+    <div class="location-status" [class.available]="insideCampus()">
+      <div class="section-inner">
+        <ion-icon name="location-outline"></ion-icon>
+        <span>
+          @if (insideCampus()) {
+            Your location is within the campus area or at the entrance.
+          } @else if (location.position()) {
+            You are outside NEUST Sumacab Campus. The entrance is listed as a destination.
+          } @else {
+            {{ location.message() }}
+          }
+        </span>
+        @if (!location.position() && location.message() !== 'Finding your location…') {
+          <button class="retry-location" type="button" (click)="location.retry()">
+            Retry location
+          </button>
+        }
+      </div>
+    </div>
+    <section class="campus-feature section-inner" id="campus-map-panel" aria-labelledby="campus-feature-title">
+      <div class="section-heading"><div><span class="section-kicker">01 / INTERACTIVE CAMPUS MAP</span><h2 id="campus-feature-title">See the campus<br />before you go.</h2></div><p>Find a building on the map, check its details, and get a path from where you are.</p></div>
+      <div class="map-layout"><div class="campus-feature-map">@if (facilities.data(); as data) { <app-campus-map [campus]="data.campus" [facilities]="data.facilities" [position]="location.position()" [featured]="true" (facilitySelected)="openFacility($event)"></app-campus-map> } @else { <div class="map-loading"><ion-spinner name="crescent"></ion-spinner><span>Preparing the campus map</span></div> }</div><div class="campus-feature-copy"><h3>A few steps.<br />You’re on your way.</h3><ol><li><span>01</span>Tap a numbered pin or the entrance marker.</li><li><span>02</span>Open the place details.</li><li><span>03</span>Choose Navigate to follow the path.</li></ol></div></div>
+    </section>
+    @if (facilities.loading()) { <div class="state section-inner"><ion-spinner name="crescent"></ion-spinner><p>Loading campus facilities…</p></div> }
+    @else if (facilities.error()) { <div class="state section-inner"><ion-icon name="compass-outline"></ion-icon><h2>Unable to load the guide</h2><p>{{ facilities.error() }}</p><ion-button (click)="facilities.load()">Retry loading</ion-button></div> }
+    @else {
+      <section class="finder section-inner" id="explore-campus" aria-label="Find a campus facility"><div class="finder-top"><div><span class="section-kicker">02 / EXPLORE THE CAMPUS</span><h2>Where do you<br />need to go?</h2></div><div class="search-wrap"><ion-icon name="search-outline" aria-hidden="true"></ion-icon><input type="search" placeholder="Search a building or map number" aria-label="Search a building or map number" [ngModel]="query()" (ngModelChange)="query.set($event)" /><button type="button" aria-label="Show search results" (click)="scrollToSection('directory')"><ion-icon name="arrow-forward-outline"></ion-icon></button></div></div><div class="chips" aria-label="Facility categories"><button type="button" [class.selected]="category() === 'all'" (click)="category.set('all')">All places</button>@for (item of categories; track item) { <button type="button" [class.selected]="category() === item" (click)="category.set(item)">{{ categoryLabel(item) }}</button> }<button type="button" [class.selected]="onlyFavorites()" (click)="onlyFavorites.set(!onlyFavorites())"><ion-icon name="heart-outline"></ion-icon> Saved</button></div></section>
+      <section class="browse section-inner" id="directory" aria-labelledby="browse-title"><div class="section-head"><div><h2 id="browse-title">Campus facilities</h2><p>Browse numbered facilities and the campus entrance.</p></div><div class="browse-tools"><span>{{ visibleFacilities().length }} places to explore</span><div class="view-switch" role="group" aria-label="Display facilities"><button type="button" [class.active]="view() === 'list'" [attr.aria-pressed]="view() === 'list'" (click)="view.set('list')"><ion-icon name="list-outline"></ion-icon><span>List</span></button><button type="button" [class.active]="view() === 'cards'" [attr.aria-pressed]="view() === 'cards'" (click)="view.set('cards')"><ion-icon name="layers-outline"></ion-icon><span>Cards</span></button></div></div></div>@if (visibleFacilities().length) { <div class="facility-list" [class.card-stack]="view() === 'cards'">@for (facility of displayedFacilities(); track facility.mapNumber) { <app-facility-card [facility]="facility" [distance]="cardDistance(facility)" [favorite]="favorites.has(facility.mapNumber)" [outside]="!insideCampus()" [compact]="view() === 'list'" (favoriteChange)="toggleFavorite($event)"></app-facility-card> }</div>@if (category() === 'all' && !query().trim() && !onlyFavorites() && visibleFacilities().length > 8) { <button class="show-all" type="button" (click)="showAll.set(!showAll())">{{ showAll() ? 'Show featured places' : 'Show all ' + visibleFacilities().length + ' places' }} <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon></button> } } @else { <div class="empty"><ion-icon name="compass-outline"></ion-icon><h3>No facilities found</h3><p>Try another name, map number, or category.</p></div> }</section>
+    }
+    <footer class="site-footer"><div class="section-inner"><strong>Tuklas</strong><span>NEUST SUMACAB CAMPUS GUIDE</span></div></footer>
+  </main>
 </ion-content>

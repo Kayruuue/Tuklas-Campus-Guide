@@ -1,3 +1,10 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+  @if (feedback.notice(); as notice) {
+    <div class="campus-notice" role="status" aria-live="polite">
+      <span class="notice-mark" aria-hidden="true"><ion-icon name="checkmark"></ion-icon></span>
+      <div class="notice-copy"><strong>{{ notice.title }}</strong><span>{{ notice.detail }}</span></div>
+      <button type="button" (click)="feedback.dismiss()" aria-label="Dismiss notification"><ion-icon name="close-outline"></ion-icon></button>
+    </div>
+  }
 </ion-app>
