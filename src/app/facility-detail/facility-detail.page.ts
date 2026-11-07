@@ -13,11 +13,13 @@ import {
 } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import {
+  businessOutline,
   heart,
   heartOutline,
-  navigateOutline,
-  locationOutline,
   imageOutline,
+  locationOutline,
+  navigateOutline,
+  timeOutline,
 } from 'ionicons/icons';
 import { FacilityService } from '../services/facility.service';
 import { FavoritesService } from '../services/favorites.service';
@@ -69,7 +71,15 @@ export class FacilityDetailPage implements OnInit {
   imageFailed = false;
 
   constructor() {
-    addIcons({ heart, heartOutline, navigateOutline, locationOutline, imageOutline });
+    addIcons({
+      businessOutline,
+      heart,
+      heartOutline,
+      imageOutline,
+      locationOutline,
+      navigateOutline,
+      timeOutline,
+    });
   }
 
   async ngOnInit(): Promise<void> {

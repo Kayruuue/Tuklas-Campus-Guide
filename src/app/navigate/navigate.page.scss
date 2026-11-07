@@ -16,7 +16,6 @@ ion-toolbar strong span { font-weight:400; color:#6c7890; }
 .destination-preview-empty { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:#26428b; text-align:center; }
 .destination-preview-empty ion-icon { font-size:24px; color:#516ac8; }
 .destination-preview-empty span { font-size:14px; font-weight:750; }
-.destination-preview-empty small { color:#68758d; font-size:10px; }
 @media(max-width:650px) {
   .route-intro { gap:14px; }
   .destination-preview { flex-basis:112px; height:88px; border-radius:10px; }
@@ -25,7 +24,6 @@ ion-toolbar strong span { font-weight:400; color:#6c7890; }
   .destination-preview { flex-basis:100px; height:82px; }
   .destination-preview-empty ion-icon { font-size:20px; }
   .destination-preview-empty span { font-size:12px; }
-  .destination-preview-empty small { font-size:9px; }
 }
 ion-back-button { --color:#26428b; }
 main { max-width:1120px; padding:24px 24px 72px; }
@@ -94,7 +92,7 @@ main { max-width:1120px; padding:24px 24px 72px; }
 .route-intro.no-image .destination-preview::after { display: none; }
 .route-intro.no-image h1 { color: #0f1939; }
 .route-intro.no-image p { color: #59657c; }
-.destination-preview-empty { align-items: flex-end; padding: 24px; }
+.destination-preview-empty { align-items: center; justify-content: flex-start; padding: 68px 24px 24px; }
 .map-shell { margin-bottom: 16px; }
 .route-details {
   margin: 0;
@@ -148,10 +146,12 @@ main { max-width:1120px; padding:24px 24px 72px; }
   ion-content { --background: #f3f5fa; }
   main { max-width: none; padding: 0 0 24px; }
   .route-intro { height: 300px; margin: 0; padding: 0 24px 38px; border-radius: 0; }
+  .route-intro.no-image { height: auto; min-height: 300px; padding-top: 140px; }
   .route-intro .route-heading { max-width: 100%; }
+  .route-intro .eyebrow { padding: 7px 10px; font-size: 9px; }
   .route-intro h1 { font-size: clamp(26px, 7vw, 32px); }
   .route-intro p { font-size: 12px; }
-  .destination-preview-empty { align-items: flex-end; padding: 80px 18px 18px; }
+  .destination-preview-empty { padding: 78px 18px 0; }
   .map-shell {
     position: relative;
     z-index: 3;

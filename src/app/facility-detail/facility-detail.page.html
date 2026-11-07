@@ -45,7 +45,7 @@
               <div><span>{{ distanceLabel() }}</span><strong>{{ distance() }}</strong></div>
             </div>
             <div class="detail-row">
-              <span class="detail-icon hours-icon">08</span>
+              <span class="detail-icon hours-icon"><ion-icon [name]="item.isEntrance ? 'time-outline' : 'business-outline'" aria-hidden="true"></ion-icon></span>
               <div><span>{{ item.isEntrance ? 'Gate hours' : 'Office hours' }}</span><strong>{{ item.isEntrance ? 'Check with campus' : item.openTime + ' – ' + item.closeTime }}</strong></div>
             </div>
           </div>

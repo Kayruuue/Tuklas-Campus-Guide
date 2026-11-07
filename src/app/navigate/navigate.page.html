@@ -8,7 +8,7 @@
     } @else if (item(); as facility) {
       <div class="route-intro" [class.no-image]="imageFailed || !facility.imagePath">
         <div class="route-heading">
-          <span class="eyebrow">{{ facility.isEntrance ? 'CAMPUS ENTRANCE' : 'CAMPUS NAVIGATION · BUILDING ' + facility.mapNumber }}</span>
+          <span class="eyebrow">{{ facility.isEntrance ? 'CAMPUS ENTRANCE' : (facility.category.replaceAll('_', ' ') + ' building').toUpperCase() }}</span>
           <h1>{{ facility.name }}</h1>
           <p>{{ hasLiveLocation() ? 'Following your live location' : facility.isEntrance ? 'Enable location to navigate to the entrance' : 'Preview starting at the Mahogany Avenue entrance' }}</p>
         </div>
@@ -19,7 +19,6 @@
             <div class="destination-preview-empty" [attr.aria-label]="'Photo of ' + facility.name + ' not available yet'">
               <ion-icon name="image-outline" aria-hidden="true"></ion-icon>
               <span>{{ facility.isEntrance ? 'Entrance' : 'Building ' + facility.mapNumber }}</span>
-              <small>Photo unavailable</small>
             </div>
           }
         </div>
