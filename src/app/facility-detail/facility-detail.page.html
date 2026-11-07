@@ -28,7 +28,7 @@
           <div class="place-copy">
             <div class="category">{{ item.category.replaceAll('_', ' ') }}</div>
             <div class="title-row">
-              <h1>{{ item.name }}</h1>
+              <h1 [class.long-name]="item.name.length > 28">{{ item.name }}</h1>
             </div>
             <p class="description">{{ item.description }}</p>
           </div>

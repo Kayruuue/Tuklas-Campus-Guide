@@ -245,6 +245,7 @@ ion-button {
   .photo-fallback span { font-size: 10px; }
   .place-copy { padding: 0 24px 36px; }
   .title-row h1 { font-size: clamp(30px, 8vw, 38px); }
+  .title-row h1.long-name { font-size: clamp(25px, 6.8vw, 30px); }
   .description { font-size: 13px; line-height: 1.4; }
   .visit-page {
     position: relative;
