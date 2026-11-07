@@ -1,11 +1,11 @@
-<ion-header [class.no-photo]="imageFailed || !facility()?.imagePath">
-  <ion-toolbar>
-    <ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons>
-    <strong class="detail-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Place details</span></strong>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-header [class.no-photo]="imageFailed || !facility()?.imagePath">
+    <ion-toolbar>
+      <ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons>
+      <strong class="detail-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Place details</span></strong>
+    </ion-toolbar>
+  </ion-header>
+
   <main class="detail-page">
     @if (!facility() && service.loading()) {
       <div class="state"><ion-spinner></ion-spinner></div>
