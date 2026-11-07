@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header [class.no-photo]="imageFailed || !facility()?.imagePath">
   <ion-toolbar>
     <ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons>
     <strong class="detail-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Place details</span></strong>
@@ -11,26 +11,24 @@
       <div class="state"><ion-spinner></ion-spinner></div>
     } @else if (facility(); as item) {
       <article class="notebook" [attr.aria-label]="item.name + ' details'">
-        <div class="notebook-page place-page">
-          <div class="page-label"><span>NEUST SUMACAB CAMPUS</span><span>{{ item.isEntrance ? 'ENTRANCE' : 'MAP ' + item.mapNumber }}</span></div>
+        <div class="notebook-page place-page" [class.no-image]="imageFailed || !item.imagePath">
+          <div class="page-label"><span>{{ item.isEntrance ? 'ENTRANCE' : 'BUILDING ' + item.mapNumber }}</span></div>
           <div class="photo" [class.no-image]="imageFailed || !item.imagePath" [class.entrance-photo]="item.isEntrance">
             @if (!imageFailed && item.imagePath) {
               <img [src]="item.imagePath" [alt]="item.name" (error)="imageFailed = true" />
             } @else {
               <div class="photo-fallback">
                 <ion-icon name="image-outline" aria-hidden="true"></ion-icon>
-                <strong>{{ item.isEntrance ? 'Campus entrance' : 'Map ' + item.mapNumber }}</strong>
+                <strong>{{ item.isEntrance ? 'Campus entrance' : 'Building ' + item.mapNumber }}</strong>
                 <span>Photo of this place is not available yet.</span>
               </div>
             }
-            <b>{{ item.isEntrance ? 'Entrance' : 'Map ' + item.mapNumber }}</b>
-            @if (item.isEntrance && !imageFailed) { <a class="photo-credit" href="https://neust.edu.ph/wp-content/uploads/2022/04/SUMACAB-1.jpg" target="_blank" rel="noopener noreferrer">Photo: NEUST</a> }
           </div>
+          <button class="favorite-button" type="button" (click)="toggleFavorite()" [attr.aria-label]="favorites.has(item.mapNumber) ? 'Remove ' + item.name + ' from favorites' : 'Save ' + item.name + ' to favorites'"><ion-icon [name]="favorites.has(item.mapNumber) ? 'heart' : 'heart-outline'"></ion-icon></button>
           <div class="place-copy">
             <div class="category">{{ item.category.replaceAll('_', ' ') }}</div>
             <div class="title-row">
               <h1>{{ item.name }}</h1>
-              <button type="button" (click)="toggleFavorite()" [attr.aria-label]="favorites.has(item.mapNumber) ? 'Remove ' + item.name + ' from favorites' : 'Save ' + item.name + ' to favorites'"><ion-icon [name]="favorites.has(item.mapNumber) ? 'heart' : 'heart-outline'"></ion-icon></button>
             </div>
             <p class="description">{{ item.description }}</p>
           </div>
@@ -39,7 +37,7 @@
         <aside class="notebook-page visit-page" aria-label="Location and navigation">
           <div class="visit-head">
             <span class="section-label">YOUR VISIT</span>
-            <h2>Your next<br /><em>stop.</em></h2>
+            <h2>Your next stop.</h2>
             <p>Check the place, then follow the route from your current location.</p>
           </div>
           <div class="visit-details">

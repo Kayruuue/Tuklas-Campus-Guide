@@ -1,4 +1,4 @@
-<ion-header><ion-toolbar><ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons><strong class="navigation-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Navigation</span></strong></ion-toolbar></ion-header>
+<ion-header [class.no-photo]="imageFailed || !item()?.imagePath"><ion-toolbar><ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons><strong class="navigation-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Navigation</span></strong></ion-toolbar></ion-header>
 <ion-content>
   <main>
     @if (service.loading()) {
@@ -6,9 +6,9 @@
     } @else if (service.error()) {
       <div class="state"><p>{{ service.error() }}</p><ion-button (click)="service.load()">Retry loading</ion-button></div>
     } @else if (item(); as facility) {
-      <div class="route-intro">
+      <div class="route-intro" [class.no-image]="imageFailed || !facility.imagePath">
         <div class="route-heading">
-          <span class="eyebrow">{{ facility.isEntrance ? 'CAMPUS ENTRANCE' : 'CAMPUS NAVIGATION · MAP ' + facility.mapNumber }}</span>
+          <span class="eyebrow">{{ facility.isEntrance ? 'CAMPUS ENTRANCE' : 'CAMPUS NAVIGATION · BUILDING ' + facility.mapNumber }}</span>
           <h1>{{ facility.name }}</h1>
           <p>{{ hasLiveLocation() ? 'Following your live location' : facility.isEntrance ? 'Enable location to navigate to the entrance' : 'Preview starting at the Mahogany Avenue entrance' }}</p>
         </div>
@@ -18,14 +18,16 @@
           } @else {
             <div class="destination-preview-empty" [attr.aria-label]="'Photo of ' + facility.name + ' not available yet'">
               <ion-icon name="image-outline" aria-hidden="true"></ion-icon>
-              <span>{{ facility.isEntrance ? 'Entrance' : 'Map ' + facility.mapNumber }}</span>
+              <span>{{ facility.isEntrance ? 'Entrance' : 'Building ' + facility.mapNumber }}</span>
               <small>Photo unavailable</small>
             </div>
           }
         </div>
       </div>
       @if (service.data(); as data) {
-        <app-campus-map [campus]="data.campus" [facility]="facility" [position]="location.position()" [navigation]="true" [featured]="true" [routePoints]="displayedPoints()" [routeKind]="routeKind()"></app-campus-map>
+        <div class="map-shell">
+          <app-campus-map [campus]="data.campus" [facility]="facility" [position]="location.position()" [navigation]="true" [featured]="true" [routePoints]="displayedPoints()" [routeKind]="routeKind()"></app-campus-map>
+        </div>
       }
 
       <section class="route-details">
