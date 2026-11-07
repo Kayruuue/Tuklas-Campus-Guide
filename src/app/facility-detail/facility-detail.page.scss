@@ -76,7 +76,6 @@ ion-back-button { --color: #26428b; }
 }
 .photo-fallback ion-icon { font-size: 40px; color: #516ac8; }
 .photo-fallback strong { color: #26428b; font-size: 38px; font-weight: 400; }
-.photo-fallback span { font-size: 12px; }
 .page-label {
   position: absolute;
   z-index: 2;
@@ -234,19 +233,19 @@ ion-button {
   .detail-page { padding: 0; }
   .notebook { display: block; }
   .place-page { min-height: 0; height: 350px; border-radius: 0; box-shadow: none; }
+  .place-page.no-image { min-height: 390px; height: auto; }
   .page-label { top: 78px; left: 20px; right: 20px; gap: 6px; }
   .page-label span { padding: 7px 10px; font-size: 9px; }
   .favorite-button { top: 20px; right: 20px; width: 42px; height: 42px; }
   ion-header.no-photo ion-toolbar strong span,
   ion-header.no-photo .detail-brand .tuklas-wordmark { color: #0f1939; }
-  .photo-fallback { inset: 112px 0 auto; height: 100px; gap: 4px; padding: 0 24px; }
-  .photo-fallback ion-icon { font-size: 26px; }
-  .photo-fallback strong { font-size: 28px; }
-  .photo-fallback span { font-size: 10px; }
+  .photo-fallback { inset: 110px 0 auto; height: 72px; gap: 4px; padding: 0 24px; }
+  .photo-fallback ion-icon { font-size: 24px; }
+  .photo-fallback strong { font-size: 22px; }
   .place-copy { padding: 0 24px 36px; }
-  .title-row h1 { font-size: clamp(30px, 8vw, 38px); }
-  .title-row h1.long-name { font-size: clamp(25px, 6.8vw, 30px); }
-  .description { font-size: 13px; line-height: 1.4; }
+  .title-row h1 { font-size: clamp(27px, 7vw, 34px); }
+  .title-row h1.long-name { font-size: clamp(22px, 6vw, 27px); }
+  .description { font-size: 12px; line-height: 1.45; }
   .visit-page {
     position: relative;
     z-index: 3;
