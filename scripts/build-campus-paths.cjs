@@ -1,6 +1,4 @@
-/** Convert a local OpenStreetMap XML extract into the small walking graph bundled with the app.
- * Usage: node scripts/build-campus-paths.cjs .campus.osm
- */
+/** Build campus walking graph. */
 const fs = require('node:fs');
 const path = require('node:path');
 const { DOMParser } = require('@xmldom/xmldom');

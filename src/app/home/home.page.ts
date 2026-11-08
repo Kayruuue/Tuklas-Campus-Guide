@@ -1,4 +1,4 @@
-/** Tuklas landing page with searchable facility list and card stack. */
+/** Tuklas home page. */
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +17,11 @@ import type { Facility, FacilityCategory } from '../models/facility.model';
 import { FacilityService } from '../services/facility.service';
 import { FavoritesService } from '../services/favorites.service';
 import { LocationService } from '../services/location.service';
-import { distanceInMeters, hasFacilityCoordinates, isWithinCampus } from '../utils/geo';
+import {
+  distanceInMeters,
+  hasFacilityCoordinates,
+  isWithinCampus,
+} from '../utils/geo';
 import { FacilityCardComponent } from '../components/facility-card/facility-card.component';
 import { CampusMapComponent } from '../components/campus-map/campus-map.component';
 import { FeedbackService } from '../services/feedback.service';
@@ -56,7 +60,10 @@ export class HomePage implements OnInit {
   private readonly router = inject(Router);
   private readonly feedback = inject(FeedbackService);
   readonly insideCampus = computed(() =>
-    isWithinCampus(this.location.position(), this.facilities.data()?.campus ?? null),
+    isWithinCampus(
+      this.location.position(),
+      this.facilities.data()?.campus ?? null,
+    ),
   );
   readonly visibleFacilities = computed(() => {
     const query = this.query().trim().toLowerCase();
@@ -131,6 +138,8 @@ export class HomePage implements OnInit {
     );
   }
   scrollToSection(id: string): void {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

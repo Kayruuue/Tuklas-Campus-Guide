@@ -1,4 +1,4 @@
-/** Draws the campus, selected destination, and a route over mapped campus paths. */
+/** Display campus routes. */
 import {
   AfterViewInit,
   Component,
@@ -10,7 +10,11 @@ import {
   viewChild,
 } from '@angular/core';
 import * as L from 'leaflet';
-import type { Campus, Facility, UserPosition } from '../../models/facility.model';
+import type {
+  Campus,
+  Facility,
+  UserPosition,
+} from '../../models/facility.model';
 import { distanceInMeters, hasFacilityCoordinates } from '../../utils/geo';
 
 @Component({
@@ -51,7 +55,8 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
       const facilities = this.facilities();
       const route = this.routePoints();
       const navigation = this.navigation();
-      if (this.map) this.refreshMap(position, facility, facilities, route, navigation);
+      if (this.map)
+        this.refreshMap(position, facility, facilities, route, navigation);
     });
   }
 
@@ -125,20 +130,26 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
     }
     this.positionMarker?.remove();
     if (position) {
-      this.positionMarker = L.circleMarker([position.latitude, position.longitude], {
-        radius: 9,
-        weight: 3,
-        color: '#fff',
-        fillColor: '#516ac8',
-        fillOpacity: 1,
-      })
+      this.positionMarker = L.circleMarker(
+        [position.latitude, position.longitude],
+        {
+          radius: 9,
+          weight: 3,
+          color: '#fff',
+          fillColor: '#516ac8',
+          fillOpacity: 1,
+        },
+      )
         .addTo(this.map)
         .bindPopup('Your current location');
     }
 
     this.facilityPins?.clearLayers();
     for (const place of navigation ? [] : facilities) {
-      if (!hasFacilityCoordinates(place) || place.mapNumber === facility?.mapNumber)
+      if (
+        !hasFacilityCoordinates(place) ||
+        place.mapNumber === facility?.mapNumber
+      )
         continue;
       L.marker([place.latitude, place.longitude], {
         icon: this.numberIcon(place.mapNumber),
@@ -147,14 +158,19 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
           : `Map ${place.mapNumber}: ${place.name}`,
       })
         .addTo(this.facilityPins!)
-        .bindTooltip(place.isEntrance ? place.name : `${place.mapNumber} · ${place.name}`)
+        .bindTooltip(
+          place.isEntrance ? place.name : `${place.mapNumber} · ${place.name}`,
+        )
         .on('click', () => this.facilitySelected.emit(place.mapNumber));
     }
 
     this.destinationMarker?.remove();
     this.routeLine?.remove();
     if (facility && hasFacilityCoordinates(facility)) {
-      const destination: L.LatLngExpression = [facility.latitude, facility.longitude];
+      const destination: L.LatLngExpression = [
+        facility.latitude,
+        facility.longitude,
+      ];
       this.destinationMarker = L.marker(destination, {
         icon: this.numberIcon(facility.mapNumber, true),
         title: `Destination: ${facility.name}`,
@@ -228,7 +244,7 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  /** Ionic can create the map before a pushed page becomes visible. */
+  /** Refresh the map layout. */
   refreshView(): void {
     if (!this.map) return;
     this.map.invalidateSize({ pan: false });
@@ -253,7 +269,8 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
     }
     const facility = this.facility();
     if (!facility || !hasFacilityCoordinates(facility)) {
-      if (!this.navigation() && this.selectedView === 'campus') this.fitCampusBounds();
+      if (!this.navigation() && this.selectedView === 'campus')
+        this.fitCampusBounds();
       return;
     }
     const route = this.routePoints();
@@ -268,7 +285,10 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
     this.fitDestination(coordinates, this.navigation());
   }
 
-  private fitDestination(coordinates: L.LatLngExpression[], navigation: boolean): void {
+  private fitDestination(
+    coordinates: L.LatLngExpression[],
+    navigation: boolean,
+  ): void {
     this.map?.fitBounds(
       L.latLngBounds(coordinates),
       navigation

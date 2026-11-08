@@ -8,11 +8,14 @@ export const routes: Routes = [
   {
     path: 'facility/:mapNumber',
     loadComponent: () =>
-      import('./facility-detail/facility-detail.page').then((m) => m.FacilityDetailPage),
+      import('./facility-detail/facility-detail.page').then(
+        (m) => m.FacilityDetailPage,
+      ),
   },
   {
     path: 'navigate/:mapNumber',
-    loadComponent: () => import('./navigate/navigate.page').then((m) => m.NavigatePage),
+    loadComponent: () =>
+      import('./navigate/navigate.page').then((m) => m.NavigatePage),
   },
   {
     path: '',

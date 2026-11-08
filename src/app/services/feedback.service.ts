@@ -15,8 +15,10 @@ export class FeedbackService {
     if (this.timeout) clearTimeout(this.timeout);
     this.notice.set({ title, detail });
     this.timeout = setTimeout(() => this.dismiss(), 6000);
-    // The web plugin uses the browser vibration API when available.
-    void Haptics.notification({ type: NotificationType.Success }).catch(() => {});
+    // Browser vibration fallback.
+    void Haptics.notification({ type: NotificationType.Success }).catch(
+      () => {},
+    );
   }
 
   dismiss(): void {

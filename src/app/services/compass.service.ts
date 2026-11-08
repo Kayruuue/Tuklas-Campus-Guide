@@ -1,4 +1,4 @@
-/** Supplies a live compass heading for the navigation arrow. */
+/** Live compass heading. */
 import { Injectable, signal } from '@angular/core';
 import {
   Capacitor,
@@ -61,18 +61,23 @@ export class CompassService {
         }
         await listener.remove();
       } catch {
-        // Use browser orientation on devices without a native compass sensor.
+        // Fall back to orientation.
       }
     }
 
-    window.addEventListener('deviceorientationabsolute', this.onAbsoluteOrientation);
+    window.addEventListener(
+      'deviceorientationabsolute',
+      this.onAbsoluteOrientation,
+    );
     try {
       this.motionListener = await Motion.addListener('orientation', (event) => {
         if (this.absoluteActive || typeof event.alpha !== 'number') return;
         this.setHeading(360 - event.alpha);
       });
     } catch {
-      this.message.set('Compass is unavailable. Use the approximate direction.');
+      this.message.set(
+        'Compass is unavailable. Use the approximate direction.',
+      );
     }
   }
 
@@ -85,7 +90,10 @@ export class CompassService {
   async stop(): Promise<void> {
     if (this.starting) await this.starting;
 
-    window.removeEventListener('deviceorientationabsolute', this.onAbsoluteOrientation);
+    window.removeEventListener(
+      'deviceorientationabsolute',
+      this.onAbsoluteOrientation,
+    );
     this.absoluteActive = false;
 
     if (this.motionListener) await this.motionListener.remove();

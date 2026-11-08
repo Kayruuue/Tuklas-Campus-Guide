@@ -1,4 +1,4 @@
-/** Detailed information for one selected campus facility. */
+/** Campus facility details. */
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
@@ -59,8 +59,8 @@ export class FacilityDetailPage implements OnInit {
   readonly walkingRoute = computed(() => {
     const item = this.facility();
     const campus = this.service.data()?.campus;
-    const start = this.location.position() ??
-      (item?.isEntrance ? null : campus?.entrance);
+    const start =
+      this.location.position() ?? (item?.isEntrance ? null : campus?.entrance);
 
     if (!item || !campus || !start || !hasFacilityCoordinates(item)) {
       return null;
@@ -107,7 +107,8 @@ export class FacilityDetailPage implements OnInit {
   distance(): string {
     const item = this.facility();
     const campus = this.service.data()?.campus;
-    const pos = this.location.position() ?? (item?.isEntrance ? null : campus?.entrance);
+    const pos =
+      this.location.position() ?? (item?.isEntrance ? null : campus?.entrance);
     if (!item || !pos || !hasFacilityCoordinates(item)) {
       return 'Location unavailable';
     }

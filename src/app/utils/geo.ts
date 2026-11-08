@@ -1,4 +1,4 @@
-/** Small, reusable GPS and compass calculations. */
+/** GPS and compass calculations. */
 import type { Campus, Facility, UserPosition } from '../models/facility.model';
 
 const earthRadiusMeters = 6_371_000;
@@ -34,12 +34,12 @@ export function readableDistance(distance: number | null): string {
     : `${(distance / 1000).toFixed(1)} km away`;
 }
 
-/** A zero coordinate means this facility still has no usable map position. */
+/** Reject missing map coordinates. */
 export function hasFacilityCoordinates(facility: Facility): boolean {
   return facility.latitude !== 0 && facility.longitude !== 0;
 }
 
-/** Keep the gate usable even though the supplied circular boundary misses it. */
+/** Include the campus gate. */
 export function isWithinCampus(
   position: UserPosition | null,
   campus: Campus | null,

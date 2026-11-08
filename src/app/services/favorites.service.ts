@@ -1,4 +1,4 @@
-/** Persists the learner's favorite facilities on this device. */
+/** Save favorite facilities. */
 import { Injectable, signal } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 @Injectable({ providedIn: 'root' })
@@ -15,7 +15,10 @@ export class FavoritesService {
     const next = this.has(id)
       ? this.ids().filter((value) => value !== id)
       : [...this.ids(), id];
-    await Preferences.set({ key: 'campus-guide-favorites', value: JSON.stringify(next) });
+    await Preferences.set({
+      key: 'campus-guide-favorites',
+      value: JSON.stringify(next),
+    });
     this.ids.set(next);
   }
 }

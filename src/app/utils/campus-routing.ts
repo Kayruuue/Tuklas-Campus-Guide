@@ -1,5 +1,9 @@
-/** Finds a route along mapped campus footways and service roads. */
-import type { CampusPaths, CampusRoute, UserPosition } from '../models/facility.model';
+/** Route along campus paths. */
+import type {
+  CampusPaths,
+  CampusRoute,
+  UserPosition,
+} from '../models/facility.model';
 import { distanceInMeters } from './geo';
 
 interface Snap {
@@ -28,7 +32,10 @@ function snapToSegment(
   const dy = (b.latitude - a.latitude) * latitudeScale;
   const x = (position.longitude - a.longitude) * longitudeScale;
   const y = (position.latitude - a.latitude) * latitudeScale;
-  const fraction = Math.max(0, Math.min(1, (x * dx + y * dy) / (dx * dx + dy * dy || 1)));
+  const fraction = Math.max(
+    0,
+    Math.min(1, (x * dx + y * dy) / (dx * dx + dy * dy || 1)),
+  );
   const projected = {
     latitude: a.latitude + fraction * (b.latitude - a.latitude),
     longitude: a.longitude + fraction * (b.longitude - a.longitude),
@@ -58,8 +65,7 @@ export function findCampusRoute(
     adjacency[b].push({ to: a, length });
   }
 
-  // The extract also contains nearby streets. Keep the connected campus network
-  // reached from the entrance so a route never jumps between disconnected ways.
+  // Keep connected campus paths.
   const entranceEdge = paths.edges
     .map(([a, b]) => snapToSegment(entrance, nodes[a], nodes[b], a, b))
     .sort((a, b) => a.distance - b.distance)[0];
@@ -112,7 +118,8 @@ export function findCampusRoute(
       if (!visited.has(i) && (current < 0 || distances[i] < distances[current]))
         current = i;
     }
-    if (current < 0 || distances[current] === Infinity || current === endIndex) break;
+    if (current < 0 || distances[current] === Infinity || current === endIndex)
+      break;
     visited.add(current);
     for (const edge of adjacency[current]) {
       const nextDistance = distances[current] + edge.length;

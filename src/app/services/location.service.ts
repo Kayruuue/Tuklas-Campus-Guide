@@ -1,7 +1,10 @@
-/** Watches device GPS while the user is inside the Tuklas app. */
+/** Device location tracking. */
 import { Injectable, signal } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
-import { Geolocation, type WatchPositionCallback } from '@capacitor/geolocation';
+import {
+  Geolocation,
+  type WatchPositionCallback,
+} from '@capacitor/geolocation';
 import type { UserPosition } from '../models/facility.model';
 
 @Injectable({ providedIn: 'root' })
@@ -26,7 +29,7 @@ export class LocationService {
     try {
       await this.stop();
     } catch {
-      // Android may have already closed a watch after a location error.
+      // Clear stale location watch.
       this.watchId = null;
     }
     await this.start();
@@ -34,8 +37,7 @@ export class LocationService {
 
   private async beginWatch(): Promise<void> {
     try {
-      // The Capacitor web implementation delegates watchPosition to the browser,
-      // but requestPermissions is only implemented on native platforms.
+      // Native permission request only.
       if (Capacitor.isNativePlatform()) {
         const permission = await Geolocation.requestPermissions();
         if (

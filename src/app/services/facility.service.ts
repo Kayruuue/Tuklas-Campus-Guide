@@ -1,8 +1,12 @@
-/** Loads and shares the static campus facility file. */
+/** Load campus facilities. */
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import type { CampusData, CampusPaths, Facility } from '../models/facility.model';
+import type {
+  CampusData,
+  CampusPaths,
+  Facility,
+} from '../models/facility.model';
 
 @Injectable({ providedIn: 'root' })
 export class FacilityService {
@@ -16,10 +20,12 @@ export class FacilityService {
     this.error.set('');
     try {
       const [data, paths] = await Promise.all([
-        firstValueFrom(this.http.get<CampusData>('assets/data/facilities.json')),
-        firstValueFrom(this.http.get<CampusPaths>('assets/data/campus-paths.json')).catch(
-          () => null,
+        firstValueFrom(
+          this.http.get<CampusData>('assets/data/facilities.json'),
         ),
+        firstValueFrom(
+          this.http.get<CampusPaths>('assets/data/campus-paths.json'),
+        ).catch(() => null),
       ]);
       const entrance: Facility = {
         id: 0,
@@ -45,6 +51,8 @@ export class FacilityService {
     }
   }
   find(mapNumber: number): Facility | undefined {
-    return this.data()?.facilities.find((facility) => facility.mapNumber === mapNumber);
+    return this.data()?.facilities.find(
+      (facility) => facility.mapNumber === mapNumber,
+    );
   }
 }

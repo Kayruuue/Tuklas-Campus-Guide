@@ -1,4 +1,4 @@
-/** Reusable facility preview used in the list and card-stack views. */
+/** Facility list preview. */
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IonIcon } from '@ionic/angular';

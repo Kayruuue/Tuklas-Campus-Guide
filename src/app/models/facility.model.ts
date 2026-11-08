@@ -1,4 +1,4 @@
-/** Data contracts for the bundled NEUST-Sumacab campus guide. */
+/** NEUST campus data models. */
 export type FacilityCategory =
   | 'administration'
   | 'food_and_halls'

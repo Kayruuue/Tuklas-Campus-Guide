@@ -1,4 +1,4 @@
-/** Shows one selected facility with a route along mapped campus paths. */
+/** Navigate to selected facilities. */
 import {
   Component,
   computed,
@@ -81,7 +81,10 @@ export class NavigatePage implements OnInit, OnDestroy {
   );
   readonly hasLiveLocation = computed(() => !!this.location.position());
   readonly insideCampus = computed(() =>
-    isWithinCampus(this.location.position(), this.service.data()?.campus ?? null),
+    isWithinCampus(
+      this.location.position(),
+      this.service.data()?.campus ?? null,
+    ),
   );
   readonly start = computed(() => {
     const campus = this.service.data()?.campus;
@@ -101,7 +104,8 @@ export class NavigatePage implements OnInit, OnDestroy {
     const item = this.item();
     const start = this.start();
     const campus = this.service.data()?.campus;
-    if (!item || !start || !campus || !hasFacilityCoordinates(item)) return null;
+    if (!item || !start || !campus || !hasFacilityCoordinates(item))
+      return null;
     return findCampusRoute(start, item, campus.entrance, this.service.paths());
   });
   readonly directGuide = computed(() => {
@@ -136,7 +140,10 @@ export class NavigatePage implements OnInit, OnDestroy {
       (point) => start && distanceInMeters(start, point) > 5,
     );
     if (!start || !next) return 0;
-    return (bearingInDegrees(start, next) - (this.compass.heading() ?? 0) + 360) % 360;
+    return (
+      (bearingInDegrees(start, next) - (this.compass.heading() ?? 0) + 360) %
+      360
+    );
   });
 
   constructor() {
