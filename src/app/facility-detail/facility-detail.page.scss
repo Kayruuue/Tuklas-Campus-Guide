@@ -132,6 +132,7 @@ ion-back-button { --color: #26428b; }
   transition: transform .2s;
 }
 .favorite-button:hover { transform: translateY(-2px); }
+.mobile-favorite { display: none; }
 .description { max-width: 55ch; margin: 0; color: #fff; font-size: 15px; line-height: 1.55; }
 .place-page.no-image .place-copy { color: #0f1939; }
 .place-page.no-image .category { color: #26428b; }
@@ -206,7 +207,8 @@ ion-button {
 @media (max-width: 650px) {
   ion-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; pointer-events: none; }
   ion-buttons,
-  ion-back-button { pointer-events: auto; }
+  ion-back-button,
+  .mobile-favorite .favorite-button { pointer-events: auto; }
   ion-toolbar {
     --background: transparent;
     --color: #fff;
@@ -227,19 +229,26 @@ ion-button {
     background: #fff;
   }
   ion-back-button::part(icon) { width: 26px; height: 26px; flex-shrink: 0; }
+  .mobile-favorite { display: flex; }
+  .mobile-favorite .favorite-button {
+    position: static;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
   ion-toolbar strong span,
   .detail-brand .tuklas-wordmark { color: #fff; }
   ion-content { --background: #faebd7; }
   .detail-page { padding: 0; }
   .notebook { display: block; }
   .place-page { min-height: 0; height: 350px; border-radius: 0; box-shadow: none; }
-  .place-page.no-image { min-height: 390px; height: auto; }
-  .page-label { top: 78px; left: 20px; right: 20px; gap: 6px; }
+  .place-page.no-image { min-height: calc(390px + var(--ion-safe-area-top, 0px)); height: auto; }
+  .page-label { top: calc(78px + var(--ion-safe-area-top, 0px)); left: 20px; right: 20px; gap: 6px; }
   .page-label span { padding: 7px 10px; font-size: 9px; }
-  .favorite-button { top: 20px; right: 20px; width: 42px; height: 42px; }
+  .place-page > .favorite-button { display: none; }
   ion-header.no-photo ion-toolbar strong span,
   ion-header.no-photo .detail-brand .tuklas-wordmark { color: #0f1939; }
-  .photo-fallback { inset: 110px 0 auto; height: 72px; gap: 4px; padding: 0 24px; }
+  .photo-fallback { inset: calc(120px + var(--ion-safe-area-top, 0px)) 0 auto; height: 80px; gap: 4px; padding: 0 24px; }
   .photo-fallback ion-icon { font-size: 24px; }
   .photo-fallback strong { font-size: 22px; }
   .place-copy { padding: 0 24px 36px; }

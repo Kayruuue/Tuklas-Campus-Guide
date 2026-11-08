@@ -3,6 +3,11 @@
     <ion-toolbar>
       <ion-buttons slot="start"><ion-back-button defaultHref="/home"></ion-back-button></ion-buttons>
       <strong class="detail-brand"><span class="tuklas-wordmark">Tuklas</span><span> / Place details</span></strong>
+      @if (facility(); as item) {
+        <ion-buttons slot="end" class="mobile-favorite">
+          <button class="favorite-button" type="button" (click)="toggleFavorite()" [attr.aria-label]="favorites.has(item.mapNumber) ? 'Remove ' + item.name + ' from favorites' : 'Save ' + item.name + ' to favorites'"><ion-icon [name]="favorites.has(item.mapNumber) ? 'heart' : 'heart-outline'"></ion-icon></button>
+        </ion-buttons>
+      }
     </ion-toolbar>
   </ion-header>
 

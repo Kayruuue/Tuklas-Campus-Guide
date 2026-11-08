@@ -146,12 +146,16 @@ main { max-width:1120px; padding:24px 24px 72px; }
   ion-content { --background: #f3f5fa; }
   main { max-width: none; padding: 0 0 24px; }
   .route-intro { height: 300px; margin: 0; padding: 0 24px 38px; border-radius: 0; }
-  .route-intro.no-image { height: auto; min-height: 300px; padding-top: 140px; }
+  .route-intro.no-image {
+    height: auto;
+    min-height: calc(300px + var(--ion-safe-area-top, 0px));
+    padding-top: calc(170px + var(--ion-safe-area-top, 0px));
+  }
   .route-intro .route-heading { max-width: 100%; }
   .route-intro .eyebrow { padding: 7px 10px; font-size: 9px; }
   .route-intro h1 { font-size: clamp(26px, 7vw, 32px); }
   .route-intro p { font-size: 12px; }
-  .destination-preview-empty { padding: 78px 18px 0; }
+  .destination-preview-empty { padding: calc(105px + var(--ion-safe-area-top, 0px)) 18px 0; }
   .map-shell {
     position: relative;
     z-index: 3;
