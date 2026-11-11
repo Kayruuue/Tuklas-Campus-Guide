@@ -23,6 +23,7 @@ export interface Facility {
   latitude: number;
   longitude: number;
   positionSource?: 'osm' | 'official-map-estimate';
+  routeAccess?: { latitude: number; longitude: number };
   isEntrance?: boolean;
   imagePath: string;
   openTime?: string;

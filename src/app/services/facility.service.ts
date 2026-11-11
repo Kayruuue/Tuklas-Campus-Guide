@@ -38,7 +38,7 @@ export class FacilityService {
         longitude: data.campus.entrance.longitude,
         positionSource: 'official-map-estimate',
         isEntrance: true,
-        imagePath: 'assets/images/facilities/entrance.jpg',
+        imagePath: 'assets/images/campus-entrance-mahogany.png',
       };
       this.data.set({ ...data, facilities: [entrance, ...data.facilities] });
       this.paths.set(paths);

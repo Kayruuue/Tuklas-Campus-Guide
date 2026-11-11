@@ -72,13 +72,18 @@ export class CampusMapComponent implements AfterViewInit, OnDestroy {
       scrollWheelZoom: false,
       zoomSnap: this.navigation() ? 0.25 : 1,
     }).setView(entrance, 17);
+    let loadedTileCount = 0;
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     })
+      .on('tileload', () => {
+        loadedTileCount++;
+        this.tileError = false;
+      })
       .on('tileerror', () => {
-        this.tileError = true;
+        this.tileError = loadedTileCount === 0;
       })
       .addTo(this.map);
     L.control.zoom({ position: 'bottomright' }).addTo(this.map);

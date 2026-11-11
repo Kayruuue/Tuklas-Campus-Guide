@@ -1,6 +1,6 @@
 # Campus images
 
-`campus-entrance-hero.jpg` is the entrance photograph supplied for this project and is used in the campus guide hero.
+`campus-entrance-mahogany.png` is an adapted copy of the Mahogany Avenue entrance image supplied in chat. It is used in the campus guide hero and entrance detail. The earlier entrance photos remain in the asset folder.
 
 `campusguide-mark.svg` is the supplied CampusGuide mark.
 

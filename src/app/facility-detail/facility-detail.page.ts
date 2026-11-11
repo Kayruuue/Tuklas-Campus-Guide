@@ -66,7 +66,12 @@ export class FacilityDetailPage implements OnInit {
       return null;
     }
 
-    return findCampusRoute(start, item, campus.entrance, this.service.paths());
+    return findCampusRoute(
+      start,
+      item.routeAccess ?? item,
+      campus.entrance,
+      this.service.paths(),
+    );
   });
   imageFailed = false;
 

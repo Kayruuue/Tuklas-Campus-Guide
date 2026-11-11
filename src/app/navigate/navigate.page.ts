@@ -39,7 +39,6 @@ import {
   bearingInDegrees,
   distanceInMeters,
   hasFacilityCoordinates,
-  isWithinCampus,
   readableDistance,
 } from '../utils/geo';
 import { findCampusRoute } from '../utils/campus-routing';
@@ -80,12 +79,6 @@ export class NavigatePage implements OnInit, OnDestroy {
     () => !!this.item() && hasFacilityCoordinates(this.item()!),
   );
   readonly hasLiveLocation = computed(() => !!this.location.position());
-  readonly insideCampus = computed(() =>
-    isWithinCampus(
-      this.location.position(),
-      this.service.data()?.campus ?? null,
-    ),
-  );
   readonly start = computed(() => {
     const campus = this.service.data()?.campus;
     return (
@@ -106,7 +99,12 @@ export class NavigatePage implements OnInit, OnDestroy {
     const campus = this.service.data()?.campus;
     if (!item || !start || !campus || !hasFacilityCoordinates(item))
       return null;
-    return findCampusRoute(start, item, campus.entrance, this.service.paths());
+    return findCampusRoute(
+      start,
+      item.routeAccess ?? item,
+      campus.entrance,
+      this.service.paths(),
+    );
   });
   readonly directGuide = computed(() => {
     const start = this.start();
@@ -128,11 +126,10 @@ export class NavigatePage implements OnInit, OnDestroy {
   );
   readonly arrived = computed(
     () =>
-      (this.item()?.positionSource === 'osm' || this.item()?.isEntrance) &&
+      this.hasDestination() &&
       this.hasLiveLocation() &&
-      (this.insideCampus() || !!this.item()?.isEntrance) &&
       this.directDistance() !== null &&
-      this.directDistance()! <= 15,
+      this.directDistance()! <= 50,
   );
   readonly rotation = computed(() => {
     const start = this.start();
